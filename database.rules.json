@@ -1,0 +1,12 @@
+{
+  "rules": {
+    "players": {
+      ".read": true,
+      ".indexOn": ["elo"],
+      "$key": {
+        ".write": "!data.exists() || data.child('h').val() === newData.child('h').val()",
+        ".validate": "newData.hasChildren(['nick','elo','h']) && newData.child('nick').isString() && newData.child('nick').val().length >= 2 && newData.child('nick').val().length <= 16 && newData.child('elo').isNumber() && newData.child('elo').val() >= 0 && newData.child('elo').val() <= 5000 && newData.child('h').isString()"
+      }
+    }
+  }
+}

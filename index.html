@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Study Case · Mở hòm học tập</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="fx"></canvas>
+
+<header class="top">
+  <div class="brand">📦 STUDY<span>CASE</span></div>
+  <div class="me" id="me" hidden>
+    <span class="nick" id="meNick"></span>
+    <span class="rankbadge" id="meRank"></span>
+    <span class="elo"><b id="meElo">1000</b> ELO</span>
+    <button class="ghost" id="keyBtn" title="Mã khôi phục tài khoản">🔑</button>
+  </div>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button data-tab="open" class="on">Mở hòm</button>
+  <button data-tab="board">Xếp hạng</button>
+  <button data-tab="odds">Tỉ lệ &amp; quà</button>
+</nav>
+
+<main>
+  <!-- MỞ HÒM -->
+  <section id="tab-open" class="tab on">
+    <div class="stats">
+      <div><b id="stSpins">0</b><small>lần mở</small></div>
+      <div><b id="stStudy">0</b><small>phút học thêm</small></div>
+      <div><b id="stStreak">0</b><small>chuỗi đúng giờ 🔥</small></div>
+    </div>
+
+    <div class="case-wrap">
+      <div class="roulette" id="roulette">
+        <div class="marker"></div>
+        <div class="strip" id="strip"></div>
+        <div class="idle" id="idle">📦 Nhấn nút bên dưới để mở hòm</div>
+      </div>
+      <button class="open" id="spinBtn">MỞ HÒM — MIỄN PHÍ</button>
+      <p class="rule">Quà quay được <b>bắt buộc phải dùng ngay</b>. Đồng hồ chạy hết mới được mở hòm tiếp. Không có nút hủy, tải lại trang cũng không thoát được.</p>
+    </div>
+  </section>
+
+  <!-- XẾP HẠNG -->
+  <section id="tab-board" class="tab">
+    <div class="boardhead">
+      <h2>Bảng xếp hạng ELO</h2>
+      <span id="boardMode" class="pill"></span>
+    </div>
+    <table class="board">
+      <thead><tr><th>#</th><th>Biệt danh</th><th>Hạng</th><th>ELO</th><th>Phút học</th></tr></thead>
+      <tbody id="boardBody"></tbody>
+    </table>
+    <p class="muted" id="boardNote"></p>
+  </section>
+
+  <!-- TỈ LỆ -->
+  <section id="tab-odds" class="tab">
+    <h2>Tỉ lệ rơi &amp; danh sách quà</h2>
+    <p class="muted">Dựa trên tỉ lệ hòm CS:GO, các màu hiếm được tăng khoảng 10% (tương đối) nên dễ hơn một chút.</p>
+    <div id="oddsList"></div>
+    <h2>Luật ELO</h2>
+    <ul class="rules" id="eloRules"></ul>
+  </section>
+</main>
+
+<!-- ĐẶT BIỆT DANH -->
+<div class="modal" id="login">
+  <form class="card" id="loginForm" autocomplete="off">
+    <h1>📦 STUDYCASE</h1>
+    <p>Đặt biệt danh để vào xếp hạng.</p>
+    <input id="nickIn" placeholder="Biệt danh (2–16 ký tự)" maxlength="16" required>
+    <input id="codeIn" placeholder="Mã khôi phục (chỉ khi đăng nhập lại)" maxlength="40">
+    <button class="open" id="loginBtn" type="submit">VÀO GAME</button>
+    <p class="err" id="loginErr"></p>
+  </form>
+</div>
+
+<!-- MÀN KHÓA ĐẾM GIỜ -->
+<div class="lock" id="lock" hidden>
+  <div class="card lockcard" id="lockCard">
+    <div class="tierbadge" id="lkTier"></div>
+    <div class="bigicon" id="lkIcon"></div>
+    <h1 id="lkName"></h1>
+    <div class="clock" id="lkClock">00:00</div>
+    <div class="bar"><i id="lkBar"></i></div>
+    <p id="lkHint"></p>
+    <p class="over" id="lkOver"></p>
+    <button class="open" id="doneBtn" disabled>Chưa hết giờ</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
