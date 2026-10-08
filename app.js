@@ -21,9 +21,10 @@ const ORDER = ['white', 'blue', 'purple', 'red', 'gold'];
 
 // kind: 'study' = học/đọc (không bao giờ bị trừ ELO), 'fun' = giải trí (quá giờ bị trừ ELO)
 const REWARDS = [
-  { id: 'study15', tier: 'white', icon: '📚', name: 'Học thêm',            min: 15, kind: 'study', w: 40 },
-  { id: 'read15',  tier: 'white', icon: '📖', name: 'Đọc sách',            min: 15, kind: 'study', w: 40 },
-  { id: 'social5', tier: 'white', icon: '📱', name: 'Xem mạng xã hội',     min: 5,  kind: 'fun',   w: 20 },
+  // w = trọng số trong ô trắng (tổng 100): học 10%, đọc 30%, MXH 60% của ô trắng
+  { id: 'study15', tier: 'white', icon: '📚', name: 'Học thêm',            min: 15, kind: 'study', w: 10 },
+  { id: 'read15',  tier: 'white', icon: '📖', name: 'Đọc sách',            min: 15, kind: 'study', w: 30 },
+  { id: 'social5', tier: 'white', icon: '📱', name: 'Xem mạng xã hội',     min: 5,  kind: 'fun',   w: 60 },
 
   { id: 'music10', tier: 'blue',  icon: '🎧', name: 'Nghe nhạc',           min: 10, kind: 'fun', w: 1 },
   { id: 'snack10', tier: 'blue',  icon: '🍿', name: 'Ăn vặt thư giãn',     min: 10, kind: 'fun', w: 1 },
@@ -391,8 +392,10 @@ setInterval(() => { if ($('#tab-board').classList.contains('on')) renderBoard();
 function renderOdds() {
   const ch = tierChances();
   $('#oddsList').innerHTML = ORDER.map(t => {
-    const list = REWARDS.filter(r => r.tier === t).map(r =>
-      `<li>${r.icon} ${r.name} — ${r.min} phút${r.kind === 'study' ? ' <small class="muted">(học, không bị trừ ELO)</small>' : ''}</li>`).join('');
+    const pool = REWARDS.filter(r => r.tier === t);
+    const totalW = pool.reduce((s, r) => s + r.w, 0);
+    const list = pool.map(r =>
+      `<li>${r.icon} ${r.name} — ${r.min} phút <small class="muted">(~${(ch[t] * r.w / totalW).toFixed(2)}%)</small>${r.kind === 'study' ? ' <small class="muted">(học, không bị trừ ELO)</small>' : ''}</li>`).join('');
     return `<div class="tier" style="--c:${TIERS[t].color}"><h3><span>${TIERS[t].name}</span><span>${ch[t].toFixed(3)}%</span></h3><ul>${list}</ul></div>`;
   }).join('');
   $('#eloRules').innerHTML = `
